@@ -6,11 +6,14 @@ import nextflow.plugin.TestPluginDescriptorFinder
 import nextflow.plugin.TestPluginManager
 import nextflow.plugin.extension.PluginExtensionProvider
 import org.pf4j.PluginDescriptorFinder
+import spock.lang.Ignore
 import spock.lang.Shared
 import test.Dsl2Spec
 import test.MockScriptRunner
 
+import java.nio.file.Files
 import java.nio.file.Path
+import java.nio.file.Paths
 
 class PluginTest extends Dsl2Spec{
 
@@ -56,17 +59,19 @@ class PluginTest extends Dsl2Spec{
         result.val == Channel.STOP
     }
 
-    def 'should execute a function' () {
+    def 'should create default datomic data storage' () {
         when:
         def SCRIPT = '''
-            include {randomString} from 'plugin/nf-plugin-template'
-            channel
-                .of( randomString(20) )      
+            include { movies} from 'plugin/nf-datomic'            
+            channel.from( movies() )      
             '''
         and:
-        def result = new MockScriptRunner([:]).setScript(SCRIPT).execute()
+        def result = new MockScriptRunner([datomic:[enabled:true]]).setScript(SCRIPT).execute()
         then:
-        result.val.size() == 20
+        println result.val
+        println result.val
+        println result.val
         result.val == Channel.STOP
     }
+
 }

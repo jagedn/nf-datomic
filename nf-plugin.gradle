@@ -1,10 +1,13 @@
 nextflowPlugin{
-    githubOrganization = 'YOUR_GITHUB_ACCOUNT'
-    // pluginClassName, if not specified, can be calculated by gradle tasks
-    // pluginClassName = 'com.nextflow.plugin.ExamplePlugin'
+    githubOrganization = 'jagedn'
+}
+
+repositories {
+    maven { url = 'https://clojars.org/repo/' }
 }
 
 dependencies {
     // ADD HERE PLUGINS DEPENDENCIES
-    
+    implementation('org.scalamolecule:datomic-client-api-java-scala_2.13:1.0.3')
+    implementation('com.datomic:local:1.0.267')
 }
