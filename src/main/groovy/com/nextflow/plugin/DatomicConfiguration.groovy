@@ -13,15 +13,28 @@ class DatomicConfiguration {
     final String uri
     final String database
 
-    DatomicConfiguration(Map map){
+    DatomicConfiguration(Map map) {
         def config = map ?: Collections.emptyMap()
         enabled = config.enabled as boolean
-        system = config.system ?: 'dev-local'
-        storage = config.storage ?: '.datomic/data'
-        accessKey = config.accessKey ?: ''
-        secret = config.secret ?: ''
-        uri = config.uri ?: 'localhost:4334'
+        if( !enabled ){
+            return
+        }
+        if (!['dev-local', 'peer-server'].contains(config.system)) {
+            throw new RuntimeException("Unknow Datomic system $config.system. Valid values are dev-local | peer-server")
+        }
+
+        system = config.system
         database = config.database ?: 'nextflow'
+
+        if (system == 'dev-local') {
+            def local = config.devLocal as Map ?: Collections.emptyMap()
+            storage = local.storage ?: '.datomic/data'
+        } else {
+            def peer = config.peerServer as Map ?: Collections.emptyMap()
+            accessKey = peer.accessKey ?: ''
+            secret = peer.secret ?: ''
+            uri = peer.uri ?: 'localhost:4334'
+        }
     }
 
 }

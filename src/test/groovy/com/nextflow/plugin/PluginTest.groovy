@@ -66,7 +66,7 @@ class PluginTest extends Dsl2Spec{
             channel.from( movies() )      
             '''
         and:
-        def result = new MockScriptRunner([datomic:[enabled:true]]).setScript(SCRIPT).execute()
+        def result = new MockScriptRunner([datomic:[enabled:true, system:'dev-local']]).setScript(SCRIPT).execute()
         then:
         println result.val
         println result.val

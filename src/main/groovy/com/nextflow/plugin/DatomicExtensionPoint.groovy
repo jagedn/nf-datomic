@@ -27,8 +27,9 @@ class DatomicExtensionPoint extends PluginExtensionPoint{
 
         if( !client.listDatabases().contains(configuration.database)) {
             client.createDatabase(configuration.database)
-            configuration.system == 'dev-local' ? prepareDevSchema() : preparePeerSchema()
         }
+
+        configuration.system == 'dev-local' ? prepareDevSchema() : preparePeerSchema()
     }
 
     Client prepareDevLocal(){
