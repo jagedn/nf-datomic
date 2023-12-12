@@ -1,5 +1,6 @@
 package com.nextflow.plugin
 
+import datomicJava.client.api.sync.Datomic
 import nextflow.Channel
 import nextflow.plugin.Plugins
 import nextflow.plugin.TestPluginDescriptorFinder
@@ -60,18 +61,30 @@ class PluginTest extends Dsl2Spec{
     }
 
     def 'should create default datomic data storage' () {
+        given:
+        def map = [
+                datomic:[
+                        enabled:true, system:'dev-local', database:'tmp'
+                ]
+        ]
+        def client = DatomicClientFactory.instance.fromConfiguration(new DatomicConfiguration(map.datomic))
+        client.deleteDatabase('tmp')
+
         when:
         def SCRIPT = '''
-            include { movies} from 'plugin/nf-datomic'            
-            channel.from( movies() )      
+            def movies = ['comando', 'the gonnies']            
+            channel.from( movies )      
             '''
         and:
-        def result = new MockScriptRunner([datomic:[enabled:true, system:'dev-local']]).setScript(SCRIPT).execute()
+        def result = new MockScriptRunner(map).setScript(SCRIPT).execute()
+
         then:
-        println result.val
-        println result.val
-        println result.val
+        result.val
+        result.val
         result.val == Channel.STOP
+
+        and:
+        Datomic.q("[:find ?session-id :where [_ :log/session-id ?session-id ]]", client.connect("tmp").db()).size()
     }
 
 }

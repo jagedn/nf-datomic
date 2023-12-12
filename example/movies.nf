@@ -1,4 +1,9 @@
-include { movies } from 'plugin/nf-datomic'
+
+def movies = [
+        'the goonies',
+        'comando',
+        'interstellar'
+]
 
 channel
-        .from( movies() ) | map { it.toUpperCase() } | view
+        .from( movies ) | map { it.toUpperCase() } | view
