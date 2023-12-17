@@ -51,20 +51,53 @@ class DatomicClientFactory {
                 map(
                         read(":db/ident"), read(":log/session-id"),
                         read(":db/valueType"), read(":db.type/string"),
-                        read(":db/cardinality"), read(":db.cardinality/many"),
+                        read(":db/cardinality"), read(":db.cardinality/one"),
                         read(":db/doc"), "The session Id"
                 ),
                 map(
                         read(":db/ident"), read(":log/run-name"),
                         read(":db/valueType"), read(":db.type/string"),
-                        read(":db/cardinality"), read(":db.cardinality/many"),
+                        read(":db/cardinality"), read(":db.cardinality/one"),
                         read(":db/doc"), "The run name"
                 ),
                 map(
                         read(":db/ident"), read(":log/project-name"),
                         read(":db/valueType"), read(":db.type/string"),
-                        read(":db/cardinality"), read(":db.cardinality/many"),
+                        read(":db/cardinality"), read(":db.cardinality/one"),
                         read(":db/doc"), "The project name"
+                ),
+                map(
+                        read(":db/ident"), read(":log/event"),
+                        read(":db/valueType"), read(":db.type/keyword"),
+                        read(":db/cardinality"), read(":db.cardinality/one"),
+                        read(":db/doc"), "The event"
+                ),
+                map(
+                        read(":db/ident"), read(":log/run-id"),
+                        read(":db/valueType"), read(":db.type/string"),
+                        read(":db/cardinality"), read(":db.cardinality/one"),
+                        read(":db/doc"), "The run id"
+                ),
+                map(
+                        read(":db/ident"), read(":log/process-id"),
+                        read(":db/valueType"), read(":db.type/string"),
+                        read(":db/cardinality"), read(":db.cardinality/one"),
+                        read(":db/doc"), "The run id"
+                ),
+                map(
+                        read(":db/ident"), read(":log/process-name"),
+                        read(":db/valueType"), read(":db.type/string"),
+                        read(":db/cardinality"), read(":db.cardinality/one"),
+                        read(":db/doc"), "The run id"
+                ),
+                map(
+                        read(":db/ident"), read(":log/project+session+process"),
+                        read(":db/valueType"), read(":db.type/tuple"),
+                        read(":db/tupleAttrs"),
+                            read("[:log/project-name :log/session-id :log/process-id :log/event]"),
+                        read(":db/cardinality"), read(":db.cardinality/one"),
+                        read(":db/unique"), read(":db.unique/identity"),
+                        read(":db/doc"), "The run id",
                 ),
         ))
 

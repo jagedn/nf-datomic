@@ -25,7 +25,7 @@ class DatomicTraceFactory implements TraceObserverFactory{
     DatomicTraceObserver createDatomicTracaeObserver(Session session, DatomicConfiguration configuration){
         Client client = DatomicClientFactory.instance.fromConfiguration(configuration)
         Connection cnn = client.connect(configuration.database)
-        new DatomicTraceObserver(session, cnn)
+        new DatomicTraceObserver(cnn)
     }
 
 }

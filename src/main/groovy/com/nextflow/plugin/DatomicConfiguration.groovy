@@ -28,7 +28,7 @@ class DatomicConfiguration {
 
         if (system == 'dev-local') {
             def local = config.devLocal as Map ?: Collections.emptyMap()
-            storage = local.storage ?: '.datomic/data'
+            storage = local.storage ?: '.'
         } else {
             def peer = config.peerServer as Map ?: Collections.emptyMap()
             accessKey = peer.accessKey ?: ''

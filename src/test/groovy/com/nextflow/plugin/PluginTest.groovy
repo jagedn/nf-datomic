@@ -62,6 +62,9 @@ class PluginTest extends Dsl2Spec{
 
     def 'should create default datomic data storage' () {
         given:
+        def local = Paths.get(System.getProperty("user.home"), ".datomic")
+        local.deleteDir()
+
         def map = [
                 datomic:[
                         enabled:true, system:'dev-local', database:'tmp'
